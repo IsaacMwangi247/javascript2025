@@ -8,7 +8,7 @@ console.log(number %2 ==0 ? `${number} is even`: `${number} is odd`)
 //leap year
 
 let year = Number(prompt("Enter year"))
-console.log(year %4 ==0 ? `${year} is a leap year`: `${year} is not a leap year`)
+console.log(year %4 ==0 && year%100 !==0? `${year} is a leap year`: `${year} is not a leap year`)
 
 //Take as input from a user the temperature 
 let temp = Number(prompt("Enter temperature"))
@@ -40,7 +40,7 @@ if (student_score > 90){
 
 let password = prompt("Enter password")
 if (password == "secret123"){
-    console.log("Access   granted")
+    console.log("Access granted")
 }else {
     console.log("Access denied")
 }
