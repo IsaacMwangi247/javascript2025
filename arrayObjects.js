@@ -1,13 +1,24 @@
 //reverse without using loops or reverse() method
 const arr = [10,20,30,40,50]
-const reversedArr =[]
-for (let i = arr.length - 1; i>=0; i--){
-    reversedArr.push(arr[i])
-}
-console.log(reversedArr)
+// const reversedArr =[]
+// for (let i = arr.length - 1; i>=0; i--){
+//     reversedArr.push(arr[i])
+// }
+// console.log(reversedArr)
+// let [a,b,c,d,e] = arr
+// let reversed = [e,d,c,b,a]
+// console.log(reversed)
 
 //Split an array into chunks of size n using spread and rest.
 const arr2 = [1,2,3,4,5,6,7,8]
+let [a,b,c,d,e,f,...rest] = arr2
+let parts = [
+    [a,b],
+    [c,d],
+    [e,f],
+    rest
+]
+console.log(parts)
 
 //Question 3
 const userProfile = {
