@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kenya Net Salary Calculator 2025</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    h1 { text-align: center; color: #006a4e; }
+    label { display: block; margin: 15px 0 5px; font-weight: bold; }
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      padding: 14px;
+      font-size: 18px;
+      background: #006a4e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover { background: #004d39; }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #e8f5e9;
+      border-radius: 10px;
+      border-left: 6px solid #006a4e;
+      font-size: 18px;
+      line-height: 2;
+    }
+    .net { font-size: 22px; font-weight: bold; color: #006a4e; }
+  </style>
+</head>
+<body>
+
+  <h1>Kenya Net Salary Calculator</h1>
+  <p style="text-align:center;">(2023–2025 PAYE, NHIF, NSSF & NHDF rates)</p>
+
+  <label>Basic Salary (KES)</label>
+  <input type="number" id="basic" step="0.01" placeholder="e.g. 50000">
+
+  <label>Benefits (Non-cash, e.g. housing) (KES)</label>
+  <input type="number" id="benefits" step="0.01" placeholder="e.g. 15000">
+
+  <button onclick="calculateSalary()">Calculate Net Salary</button>
+
+  <div id="output" class="result" style="display:none;"></div>
+
+  <script>
+    // NHIF rates (Kenya)
+    function calculateNHIF(gross) {
+      if (gross <= 5999) return 150;
+      if (gross <= 7999) return 300;
+      if (gross <= 11999) return 400;
+      if (gross <= 14999) return 500;
+      if (gross <= 19999) return 600;
+      if (gross <= 24999) return 750;
+      if (gross <= 29999) return 850;
+      if (gross <= 34999) return 900;
+      if (gross <= 39999) return 950;
+      if (gross <= 44999) return 1000;
+      if (gross <= 49999) return 1100;
+      if (gross <= 59999) return 1200;
+      if (gross <= 69999) return 1300;
+      if (gross <= 79999) return 1400;
+      if (gross <= 89999) return 1500;
+      if (gross <= 99999) return 1600;
+      return 1700;
+    }
+
+    // PAYE (Tax) - Monthly brackets
+    function calculatePAYEE(income) {
+      if (income <= 24000) {
+        return income * 0.10;
+      } else if (income <= 32333) {
+        return (24000 * 0.10) + (income - 24000) * 0.25;
+      } else {
+        return (24000 * 0.10) + (8333 * 0.25) + (income - 32333) * 0.30;
+      }
+    }
+
+    // Format currency like 45,000.00
+    function formatKES(amount) {
+      return amount.toLocaleString('en-KE', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function calculateSalary() {
+      const basic = parseFloat(document.getElementById('basic').value) || 0;
+      const benefits = parseFloat(document.getElementById('benefits').value) || 0;
+
+      const grossSalary = basic + benefits;
+
+      const nhif = calculateNHIF(grossSalary);
+      const nssf = 0.06 * Math.min(grossSalary, 18000);  // 6% capped at 18,000
+      const nhdf = 0.015 * grossSalary;                  // 1.5% Housing Levy
+
+      const taxableIncome = grossSalary - nhif - nssf - nhdf;
+      const payee = calculatePAYEE(taxableIncome);
+
+      const netSalary = grossSalary - nhif - nssf - nhdf - payee;
+
+      document.getElementById('output').style.display = 'block';
+      document.getElementById('output').innerHTML = `
+        <strong>Kenya Payroll Summary</strong><br><br>
+        Basic Salary       : KES ${formatKES(basic)}<br>
+        Benefits           : KES ${formatKES(benefits)}<br>
+        <strong>Gross Salary       : KES ${formatKES(grossSalary)}</strong><br><br>
+
+        NHIF Deduction     : KES ${formatKES(nhif)}<br>
+        NSSF (6%)          : KES ${formatKES(nssf)}<br>
+        NHDF (1.5%)        : KES ${formatKES(nhdf)}<br>
+        PAYE (Tax)         : KES ${formatKES(payee)}<br><br>
+
+        <span class="net">Take-Home Pay (Net Salary): KES ${formatKES(netSalary)}</span>
+      `;
+    }
+  </script>
+
+</body>
+</html>
